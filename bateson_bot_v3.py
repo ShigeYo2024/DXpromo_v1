@@ -34,11 +34,9 @@ def update_progress(stage):
     st.session_state["progress"][stage] += 1
 
 # チャットボットとのやり取り
-def communicate():
-    messages = st.session_state["messages"]
-
+def communicate(messages, user_input):
     # ユーザーのメッセージを追加
-    user_message = {"role": "user", "content": st.session_state["user_input"]}
+    user_message = {"role": "user", "content": user_input}
     messages.append(user_message)
 
     # 感情分析結果を追加（オプション）
@@ -69,11 +67,10 @@ st.write("""あなたの今の感情状態を把握し、
 user_input = st.text_area("今のあなたの気持ちと新たに学びたいことを教えてください:", 
                           key="user_input", 
                           height=100)
-
 # 送信ボタン
 if st.button("送信"):
     if st.session_state["user_input"]:  # 入力が空でない場合のみ処理
-        communicate()
+        communicate(st.session_state["messages"], st.session_state["user_input"])
         st.session_state["user_input"] = ""  # 入力欄をリセット
 
 # チャット履歴の表示
